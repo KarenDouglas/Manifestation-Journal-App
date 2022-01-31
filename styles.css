@@ -1,0 +1,25 @@
+
+
+
+
+.head{
+    display: flex;
+    justify-content: space-between;
+    border: solid 3px black;
+    padding-left: 5%;
+    margin: 50px;
+}
+.head-container{
+    display: flex;
+    justify-content: flex-end;
+    border: solid 3px red;
+}
+.stepOne{
+background-color: blueviolet;
+display: flex;
+justify-content: space-between;
+}
+.stepTwo{
+    display: none;
+    
+}
