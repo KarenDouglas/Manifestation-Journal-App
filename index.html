@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Manifestation Journal</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <script src="app.js" defer></script>
+        <title>Manifestation Journal</title>
 </head>
 <body>
     <header class="head">
@@ -14,36 +15,44 @@
             <button class="addBtn">Add Entry</button>
         </div>
     </header>
-    <div class="stepOne">
-        <form>
+    <div>
+        <form class="stepOne">
             <div>
-                <label for="goal">Goal Title</label>
-                <input type="text" name="goal">
+                <input id="titleValue" type="text" name="goal" placeholder="Enter Goal Here...">
             </div>
-            <div>
-                <label for="category">Goal Type</label>
-                <select name="category" id="">
+            <div >
+                 <label for="category">Goal Type</label>
+                <select name="category" id="category" required>
+                    <option value="none"  hidden >select</option>
                     <option value="Financial">Financial</option>
                     <option value="Social">Social</option>
                     <option value="Romance">Romance</option>
                     <option value="Family">Family</option>
                     <option value="Spiritual">Spiritual</option>
                     <option value="Health">Health</option>
+                    <option value="Career">Career</option>
                     <option value="other">other</option>
                 </select>
+                <button class="form-Btn">Next</button>
             </div>
-            <button>Next</button>
         </form>
     </div>
     
-<div class="stepTwo">
-    <form>
+<div >
+    <form class="stepTwo">
         <h2>Title PlaceHolder</h2>
-        <label for="description"> I am grateful for...</label>
-        <textarea name="description" id="" cols="30" rows="10"></textarea>
-        <button>Manifest</button>
+        <h4>Category PlaceHolder</h4>
+        <textarea name="description" id="" cols="55" rows="20" placeholder="I am grateful..."></textarea>
+        <div>
+            <button class="man-Btn" >Manifest</button>
+        </div>        
     </form>
 </div>
-    
+<div>
+    <ul>
+        <li>test</li>
+    </ul>
+</div>
+
 </body>
 </html>

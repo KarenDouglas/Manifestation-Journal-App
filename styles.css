@@ -16,10 +16,39 @@
 }
 .stepOne{
 background-color: blueviolet;
-display: flex;
+display: none;
 justify-content: space-between;
+margin: 0 50px;
+padding: 15px 10px;
+}
+.stepOne input {
+width: 300%;
+height: 45%;
+text-align: center;
 }
 .stepTwo{
     display: none;
+    background-color: blueviolet;
+justify-content: space-between;
+margin: 0 50px;
+padding: 0px;
+text-align: center;
     
 }
+.stepTwo h2 {
+    border: black solid 1px;
+    padding: 20px;
+    background-color: pink;
+}
+.form-Btn{
+    display: block;
+    width: 100%;
+    margin-top: 7%;
+    padding: 3%;
+}
+
+.man-Btn{
+    padding: 3%;
+    width: 50%;
+}
+
