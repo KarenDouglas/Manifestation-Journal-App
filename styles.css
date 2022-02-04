@@ -1,5 +1,10 @@
 
-
+ul,li { 
+    list-style-type: none;
+    list-style-position:inside;
+    margin:0;
+    padding:0; 
+}    
 
 
 .head{
@@ -47,8 +52,42 @@ text-align: center;
     padding: 3%;
 }
 
-.man-Btn{
+.manBtn{
     padding: 3%;
     width: 50%;
 }
 
+.listContainer{
+    margin: 0 50px;
+    background-color: seagreen;
+        
+}
+
+
+
+.manListTitle {
+    display: flex;
+    justify-content: space-between;
+    background-color: pink;
+    padding: 15px 20px;
+}
+.manListItem {
+    display: flex;
+    justify-content: space-between;
+    background-color: plum;
+    
+} 
+.listButtonGroup{
+    display: flex;
+}   
+.listContainer button{
+    width: 50px;
+    
+}
+.expListItem{
+    display: none;
+    background-color: sandybrown;
+    margin-top: 0px;
+    padding: 8px;
+    text-align: center;
+} 
