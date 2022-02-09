@@ -75,6 +75,7 @@ text-align: center;
     display: flex;
     justify-content: space-between;
     background-color: plum;
+   
     
 } 
 .listButtonGroup{
@@ -85,9 +86,12 @@ text-align: center;
     
 }
 .expListItem{
-    display: none;
     background-color: sandybrown;
     margin-top: 0px;
     padding: 8px;
     text-align: center;
-} 
+}
+
+.pToggle{
+    display: none;
+}

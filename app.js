@@ -9,19 +9,20 @@ const stepTwoTitle = stepTwo.querySelector('h2');
 const categoryTitle = stepTwo.querySelector('h4');
 const manList = document.querySelector('.manList');
 const manTextArea = document.querySelector('#description');
-const exBTn =document.querySelector('.expandBtn');
-const expListItem = document.querySelector('.expListItem')
+const exBtn = document.querySelector('#expandBtn');
 
 
 const DUMMYLIST = [
-    { title: 'Dummy Title', description: " this is a dummy description", category: 'Career'}
+    // { id: 0, title: 'Dummy Title', description: " this is a dummy description", category: 'Career'}
 ]
-
+ DUMMYLIST.forEach((item, index) => {
+     item.id = index + 1
+ })
 
 const renderList = () => {
     DUMMYLIST.forEach((item, index) =>{
         manList.innerHTML += 
-        ` <li id="${index}">
+        ` <li id="${item.id}">
                  <div class="manListItem">
                      <button class="expandBtn">ex</button>
                      <h3>${item.title}</h3>
@@ -30,7 +31,7 @@ const renderList = () => {
                          <button>x</button> 
                      </div>
                  </div>
-                 <div class="expListItem">
+                 <div class="expListItem pToggle">
                      <em>${item.category}</em>
                      <p>${item.description}</p>
                  </div>
@@ -38,7 +39,6 @@ const renderList = () => {
              `
     }) 
 }
-console.log(DUMMYLIST)
 const newEntryHandler = () => {
     stepOne.style.display = 'flex';
 }
@@ -50,26 +50,79 @@ const enterTitle = e => {
     categoryTitle.innerHTML= categoryInput.value;
     stepOne.style.display = 'none';
     stepTwo.style.display = 'block';
+    
 };
 
 
-const addToListHandler = e => {
+
+
+const addListItemHandler = e => {
     e.preventDefault();
-    
     DUMMYLIST.push(
-        { title: titleIntput.value, description: manTextArea.value, category: categoryInput.value}
+        {   title: titleIntput.value, description: manTextArea.value, category: categoryInput.value, completed: false}
         )
+        
+        const listItem = document.createElement('li')
+        listItem.innerHTML = `
+        <div class="manListItem">
+        <button class="expandBtn">ex</button>
+        <h3>${titleIntput.value}</h3>
+        <div class="listButtonGroup">
+        <button id="completed" >c</button>
+        <button id="trash" >x</button> 
+        </div>
+        </div>
+        <div class="expListItem pToggle">
+        <em>${categoryInput.value}</em>
+        <p>${manTextArea.value}</p>
+        </div>
+        `
+        DUMMYLIST.forEach((item, index) => {
+            item.id = index + 1
+            listItem.setAttribute('id', item.id)
 
-
-    let li = document.createElement('li')
-    
-    manList.appendChild(li)
-    li.innerHTML +=
+        })
+        manList.append(listItem)
+        
+        console.log(DUMMYLIST)
+        titleIntput.value= '';
+        categoryInput.value = '';
+        description.value = '';
+        stepOne.style.display = 'none';
+        stepTwo.style.display = 'none';
 }
 
+document.addEventListener('click',function(e){
+    if(e.target && e.target.className== 'expandBtn'){
+       // document.querySelector('.expListItem').classList.toggle('pToggle')
+  e.target.parentElement.nextElementSibling.classList.toggle('pToggle')
+     }
+ });
 
+ document.addEventListener('click',function(e){
+    if(e.target && e.target.id == 'completed'){
+      e.target.parentElement.parentElement.parentElement.style.textDecoration ='line-through'
+      
 
-addEntryBtn.addEventListener('click', newEntryHandler)
+       DUMMYLIST.filter((d)=> {
+           if(e.target.parentElement.parentElement.parentElement.id == d.id){
+               d.completed = true;
+               console.log(DUMMYLIST)
+           }
+       })
+     }
+ });
+
+ document.addEventListener('click',function(e){
+    if(e.target && e.target.id == 'trash'){
+        // document.querySelector('.expListItem').classList.toggle('pToggle')
+        e.target.parentElement.parentElement.parentElement.remove();
+
+        const newArray = DUMMYLIST.filter((item) => item.id != e.target.parentElement.parentElement.parentElement.id);
+        console.log(newArray)
+    }
+ });
+addEntryBtn.addEventListener('click', newEntryHandler);
 nextBtn.addEventListener('click', enterTitle);
-manBtn.addEventListener('click', addToListHandler);
+manBtn.addEventListener('click', addListItemHandler);
 renderList();
