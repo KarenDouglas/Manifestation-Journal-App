@@ -95,3 +95,6 @@ text-align: center;
 .pToggle{
     display: none;
 }
+.completed{
+    text-decoration: line-through;
+}
