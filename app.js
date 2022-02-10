@@ -53,10 +53,10 @@ const addListItemHandler = e => {
         const listItem = document.createElement('li')
         listItem.innerHTML = `
         <div class="manListItem">
-        <button class="expandBtn">ex</button>
+        <button class="expandBtn"> <i class=" fa fa-regular fa-window-maximize"></i></button>
         <h3>${titleIntput.value}</h3>
         <div class="listButtonGroup">
-        <button id="completed" >c</button>
+        <button id="completed" ><i class="fa fa-check"></i></button>
         <button id="trash" >x</button> 
         </div>
         </div>
@@ -70,7 +70,7 @@ const addListItemHandler = e => {
             listItem.setAttribute('id', item.id)
 
         })
-        manList.append(listItem)
+        manList.prepend(listItem)
         
         console.log(DUMMYLIST)
         titleIntput.value= '';
@@ -134,11 +134,14 @@ document.addEventListener('click',function(e){
         manList.innerHTML += 
         ` <li id="${item.id}" class=${item.completed? "completed": ''}>
                  <div class="manListItem">
-                     <button class="expandBtn">ex</button>
+                     <button class="expandBtn">
+ 
+ 
+                     <i class=" fa fa-regular fa-window-maximize"></i></button>
                      <h3>${item.title}</h3>
                      <div class="listButtonGroup">
-                         <button id="completed">c</button>
-                         <button id="trash">x</button> 
+                         <button id="completed" class= "completeBtn"><i class="fa fa-check"></i></button>
+                         <button id="trash" class="trashBtn"><i class="fa fa-trash"></i></button> 
                      </div>
                  </div>
                  <div class="expListItem pToggle">

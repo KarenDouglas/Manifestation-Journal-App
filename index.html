@@ -6,18 +6,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
         <script src="app.js" defer></script>
+        <script src="https://kit.fontawesome.com/e9f63f1b46.js" crossorigin="anonymous"></script>
+
+
         <title>Manifestation Journal</title>
 </head>
 <body>
     <header class="head">
         <h1 class="logo">Manifestation Journal</h1>
         <div class="head-container">
-            <button class="addBtn">Add Entry</button>
+            <button class="addBtn"><i class=" fa fa-file"></i> Add Entry</button>
         </div>
     </header>
     <div>
         <form class="stepOne">
             <div>
+                <label for="goal">Enter Goal</label>
                 <input id="titleValue" type="text" name="goal" placeholder="Enter Goal Here...">
             </div>
             <div >
@@ -33,7 +37,7 @@
                     <option value="Career">Career</option>
                     <option value="other">other</option>
                 </select>
-                <button class="form-Btn">Next</button>
+                <button class="form-Btn"><i class="fa fa-angle-right"></i></button>
             </div>
         </form>
     </div>
@@ -79,6 +83,5 @@
         </li> -->
     </ul>
 </div>
-
 </body>
 </html>
