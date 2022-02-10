@@ -96,7 +96,7 @@ document.addEventListener('click',function(e){
 
             if(d.completed === false){
                 d.completed = true;
-                e.target.parentElement.parentElement.parentElement.style.textDecoration ='line-through'
+                e.target.parentElement.parentElement.parentElement.classList.add('completed')
             }else{
                 alert('already completed this task')
             }
@@ -152,20 +152,22 @@ document.addEventListener('click',function(e){
     
     };
 const sortByTypeHandler = () => {
-    const list = Array.from(manList.querySelectorAll('li'))
+    const list = Array.from(manList.querySelectorAll('li'));
+    list.forEach((item)=> item.style.display ='block');
     if(sortOpt.value == 'completed'){
-      let  newList =list.filter((item)=>{
-        return item.classList.contains('completed')
-      })
-      newList.forEach((li)=>{
+      let  completedList =list.filter((item)=>{
+        return !item.classList.contains('completed')
+      }).forEach((li)=>{
           li.style.display= 'none'
-      })
-      console.log(newList)
+      });
     }else if (sortOpt.value == 'pending'){
-        
-        console.log('pending ... ')
+        let  pendingList =list.filter((item)=>{
+            return item.classList.contains('completed')
+          }).forEach((li)=>{
+              li.style.display= 'none'
+          });
     }else if(sortOpt.value == 'all'){
-        console.log('all ...')
+        list.forEach((item)=> item.style.display ='block')
     }
 
     
