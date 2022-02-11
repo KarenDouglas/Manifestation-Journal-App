@@ -13,6 +13,8 @@ const exBtn = document.querySelector('#expandBtn');
 const sortOpt = document.querySelector('#sortOpt');
 
 
+let uri = 'http://localhost:3000/posts';
+
 let DUMMYLIST = [
     {id: 1, title: "Complete Manifest Journal", category: "Career", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", completed: false },
     {id: 2, title: "Pay off Debt", category: "Financial", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", completed: false },
@@ -44,41 +46,57 @@ const enterTitle = e => {
     
 };
 
-const addListItemHandler = e => {
-    e.preventDefault();
-    DUMMYLIST.push(
-        {   title: titleIntput.value, description: manTextArea.value, category: categoryInput.value, completed: false}
-        )
+// const addListItemHandler = e => {
+//     e.preventDefault();
+//     DUMMYLIST.push(
+//         {   title: titleIntput.value, description: manTextArea.value, category: categoryInput.value, completed: false}
+//         )
         
-        const listItem = document.createElement('li')
-        listItem.innerHTML = `
-        <div class="manListItem">
-        <button class="expandBtn"> <i class=" fa fa-regular fa-window-maximize"></i></button>
-        <h3>${titleIntput.value}</h3>
-        <div class="listButtonGroup">
-        <button id="completed" ><i class="fa fa-check"></i></button>
-        <button id="trash" >x</button> 
-        </div>
-        </div>
-        <div class="expListItem pToggle">
-        <em>${categoryInput.value}</em>
-        <p>${manTextArea.value}</p>
-        </div>
-        `
-        DUMMYLIST.forEach((item, index) => {
-            item.id = index + 1
-            listItem.setAttribute('id', item.id)
+//         const listItem = document.createElement('li')
+//         listItem.innerHTML = `
+//         <div class="manListItem">
+//         <button class="expandBtn"> <i class=" fa fa-regular fa-window-maximize"></i></button>
+//         <h3>${titleIntput.value}</h3>
+//         <div class="listButtonGroup">
+//         <button id="completed" class="completeBtn" ><i class="fa fa-check"></i></button>
+//         <button id="trash" class="trashBtn" ><i class="fa fa-trash"></i></button> 
+//         </div>
+//         </div>
+//         <div class="expListItem pToggle">
+//         <em>${categoryInput.value}</em>
+//         <p>${manTextArea.value}</p>
+//         </div>
+//         `
+//         DUMMYLIST.forEach((item, index) => {
+//             item.id = index + 1
+//             listItem.setAttribute('id', item.id)
 
-        })
-        manList.prepend(listItem)
+//         })
+//         manList.prepend(listItem)
         
-        console.log(DUMMYLIST)
-        titleIntput.value= '';
-        categoryInput.value = '';
-        description.value = '';
-        stepOne.style.display = 'none';
-        stepTwo.style.display = 'none';
-};
+//         console.log(DUMMYLIST)
+//         titleIntput.value= '';
+//         categoryInput.value = '';
+//         description.value = '';
+//         stepOne.style.display = 'none';
+//         stepTwo.style.display = 'none';
+// };
+
+const addPost = async () => {
+    const doc = {
+           title: titleIntput.value, 
+           description: manTextArea.value, 
+           category: categoryInput.value, 
+           completed: false
+    }
+
+    await fetch(uri , {
+        method: 'POST',
+        body: JSON.stringify(doc),
+        headers: {'Content-Type': 'application/json'}
+    });
+    renderPosts();
+}
 
 document.addEventListener('click',function(e){
     if(e.target && e.target.className== 'expandBtn'){
@@ -86,19 +104,28 @@ document.addEventListener('click',function(e){
      }
  });
 
- document.addEventListener('click',function(e){
+ document.addEventListener('click',async (e) => {
     if(e.target && e.target.id == 'completed'){
-     
-      
+        const res = await fetch(uri);
+        const posts = await res.json();
+        const doc ={
+            completed: true
+        }
 
-       DUMMYLIST.filter((d)=> {
+       posts.filter(async (d)=> {
            if(e.target.parentElement.parentElement.parentElement.id == d.id){
 
             if(d.completed === false){
-                d.completed = true;
-                e.target.parentElement.parentElement.parentElement.classList.add('completed')
+                const response = await fetch(`${uri}/${e.target.parentElement.parentElement.parentElement.id}`,{
+                    method: 'PATCH',
+                    body:JSON.stringify(doc),
+                    headers: {'Content-Type': 'application/json'}
+                })
+                
+                // d.completed = true;
+                // e.target.parentElement.parentElement.parentElement.classList.add('completed')
             }else{
-                alert('already completed this task')
+                alert('Already completed this task!')
             }
                console.log(DUMMYLIST)
            }
@@ -106,17 +133,23 @@ document.addEventListener('click',function(e){
      }
  });
 
- document.addEventListener('click',function(e){
+ document.addEventListener('click',async (e) =>{
     if(e.target && e.target.id == 'trash'){
-        e.target.parentElement.parentElement.parentElement.remove();
+        // e.target.parentElement.parentElement.parentElement.remove();
         
-        let newArray = DUMMYLIST.filter((item) => {
-           const list = item.id != e.target.parentElement.parentElement.parentElement.id
-            return list
-        });
+        // let newArray = DUMMYLIST.filter((item) => {
+        //    const list = item.id != e.target.parentElement.parentElement.parentElement.id
+        //     return list
+        // });
 
-        DUMMYLIST = newArray;
-        console.log(newArray);
+        // DUMMYLIST = newArray;
+        // console.log(newArray);
+
+
+        const res = await fetch(`${uri}/${e.target.parentElement.parentElement.parentElement.id}`,{
+            method: 'DELETE'
+        })
+        renderPosts()
     }
  });
 
@@ -127,33 +160,33 @@ document.addEventListener('click',function(e){
     }
 });
 
- const renderList = () => {
-    DUMMYLIST.forEach((item, index) =>{
+//  const renderList = () => {
+//     DUMMYLIST.forEach((item, index) =>{
 
         
-        manList.innerHTML += 
-        ` <li id="${item.id}" class=${item.completed? "completed": ''}>
-                 <div class="manListItem">
-                     <button class="expandBtn">
+//         manList.innerHTML += 
+//         ` <li id="${item.id}" class=${item.completed? "completed": ''}>
+//                  <div class="manListItem">
+//                      <button class="expandBtn">
  
  
-                     <i class=" fa fa-regular fa-window-maximize"></i></button>
-                     <h3>${item.title}</h3>
-                     <div class="listButtonGroup">
-                         <button id="completed" class= "completeBtn"><i class="fa fa-check"></i></button>
-                         <button id="trash" class="trashBtn"><i class="fa fa-trash"></i></button> 
-                     </div>
-                 </div>
-                 <div class="expListItem pToggle">
-                     <em>${item.category}</em>
-                     <p>${item.description}</p>
-                 </div>
-             </li>
-             `
-        });
+//                      <i class=" fa fa-regular fa-window-maximize"></i></button>
+//                      <h3>${item.title}</h3>
+//                      <div class="listButtonGroup">
+//                          <button id="completed" class= "completeBtn"><i class="fa fa-check"></i></button>
+//                          <button id="trash" class="trashBtn"><i class="fa fa-trash"></i></button> 
+//                      </div>
+//                  </div>
+//                  <div class="expListItem pToggle">
+//                      <em>${item.category}</em>
+//                      <p>${item.description}</p>
+//                  </div>
+//              </li>
+//              `
+//         });
 
     
-    };
+    //};
 const sortByTypeHandler = () => {
     const list = Array.from(manList.querySelectorAll('li'));
     list.forEach((item)=> item.style.display ='block');
@@ -176,8 +209,44 @@ const sortByTypeHandler = () => {
     
 }
 
+const renderPosts = async () =>{
+   
+    const res = await fetch(uri);
+    const posts = await res.json();
+
+    let template= ''
+
+    posts.forEach((item, index) =>{
+        
+       template += 
+        ` <li id="${item.id}" class=${item.completed? "completed": ''}>
+                 <div class="manListItem">
+                     <button class="expandBtn">
+ 
+ 
+                     <i class=" fa fa-regular fa-window-maximize"></i></button>
+                     <h3>${item.title}</h3>
+                     <div class="listButtonGroup">
+                         <button id="completed" class= "completeBtn"><i class="fa fa-check"></i></button>
+                         <button id="trash" class="trashBtn"><i class="fa fa-trash"></i></button> 
+                     </div>
+                 </div>
+                 <div class="expListItem pToggle">
+                     <em>${item.category}</em>
+                     <p>${item.description}</p>
+                 </div>
+             </li>
+             `
+        });
+
+  manList.innerHTML = template;
+
+}
+
+window.addEventListener('DOMContentLoaded', renderPosts)
+
 sortOpt.addEventListener('click', sortByTypeHandler);
 addEntryBtn.addEventListener('click', newEntryHandler);
 nextBtn.addEventListener('click', enterTitle);
-manBtn.addEventListener('click', addListItemHandler);
-renderList();
+manBtn.addEventListener('click', addPost);
+
